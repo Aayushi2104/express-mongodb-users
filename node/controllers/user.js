@@ -1,13 +1,19 @@
 const userModel = require("../models/user");
 
 const getAllUsers = async (req, res) => {
-    const allusers = await userModel.find({})
-
-    res.status(200).json({
-        message: "all users fetched",
-        allusers
-    })
-}
+    try {
+        const users = await userModel.find();
+        res.status(200).json({
+            message: "All users fetched successfully",
+            users
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching users",
+            error: error.message
+        });
+    }
+};
 const getUserById = async (req, res) => {
     try {
         const user = await userModel.findById(req.params.id);
